@@ -69,10 +69,10 @@ function LitBackground() {
             {/* 3D Text that reacts to light */}
             <group ref={textGroupRef} position={[0, 0.5, 1]}>
                 {/* Create depth by layering multiple text instances */}
-                {[...Array(10)].map((_, i) => (
+                {[...Array(20)].map((_, i) => (
                     <Text
                         key={i.toString()}
-                        position={[0, 0, -i * 0.05]}
+                        position={[0, 0, -i * 0.03]}
                         fontSize={1.5}
                         color="#0a0a0a"
                         anchorX="center"
@@ -80,26 +80,27 @@ function LitBackground() {
                     >
                         ⊇
                         <meshStandardMaterial
-                            color="#333333"
-                            metalness={1.0}
-                            roughness={0.05}
+                            color="#2c3539"
+                            metalness={0.95}
+                            roughness={0.2}
                             emissive="#000000"
                             emissiveIntensity={0}
+                            envMapIntensity={1}
                         />
                     </Text>
                 ))}
             </group>
 
             {/* Ambient light for base visibility */}
-            <ambientLight intensity={0.5} />
+            <ambientLight intensity={0.2} />
 
             {/* Point light that follows mouse */}
             <pointLight
                 ref={lightRef}
-                intensity={8}
+                intensity={30}
                 color="#ff9999"
-                distance={100}
-                decay={0.3}
+                distance={50}
+                decay={0.5}
             />
         </>
     );
