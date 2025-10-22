@@ -4,10 +4,12 @@ import { Center, Text } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
 import type { Mesh, PointLight } from "three";
+import * as THREE from "three";
 
 function LitBackground() {
     const meshRef = useRef<Mesh>(null);
     const lightRef = useRef<PointLight>(null);
+    const textGroupRef = useRef<THREE.Group>(null);
     const { viewport, camera } = useThree();
 
     useFrame((state) => {
@@ -17,6 +19,11 @@ function LitBackground() {
             const y = (state.mouse.y * viewport.height) / 2;
             // Position light slightly in front of the plane
             lightRef.current.position.set(x, y, 2);
+        }
+
+        // Make the text group face the camera
+        if (textGroupRef.current) {
+            textGroupRef.current.lookAt(camera.position);
         }
 
         // Make the plane always face the camera
@@ -60,16 +67,18 @@ function LitBackground() {
             </mesh>
 
             {/* 3D Text that reacts to light */}
-            <group position={[0, 0, 1]}>
+            <group ref={textGroupRef} position={[0, 0.5, 1]}>
                 {/* Create depth by layering multiple text instances */}
                 {[...Array(10)].map((_, i) => (
                     <Text
                         key={i.toString()}
                         position={[0, 0, -i * 0.05]}
-                        fontSize={3}
-                        color={i === 0 ? "#ffffff" : "#cccccc"}
+                        fontSize={1.5}
+                        color="#ffffff"
                         anchorX="center"
                         anchorY="middle"
+                        material-metalness={0.9}
+                        material-roughness={0.1}
                     >
                         ⊇
                     </Text>
