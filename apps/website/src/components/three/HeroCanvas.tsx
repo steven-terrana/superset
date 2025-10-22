@@ -92,15 +92,19 @@ function LitBackground() {
             </group>
 
             {/* Ambient light for base visibility */}
-            <ambientLight intensity={0.3} />
+            <ambientLight intensity={0.4} />
+
+            {/* Static directional lights for consistent highlights */}
+            <directionalLight position={[10, 10, 5]} intensity={1.2} color="#ffffff" />
+            <directionalLight position={[-8, -8, 5]} intensity={0.6} color="#4488ff" />
 
             {/* Point light that follows mouse */}
             <pointLight
                 ref={lightRef}
-                intensity={15}
-                color="#ffcccc"
+                intensity={25}
+                color="#ffffff"
                 distance={50}
-                decay={0.8}
+                decay={1.2}
             />
         </>
     );
