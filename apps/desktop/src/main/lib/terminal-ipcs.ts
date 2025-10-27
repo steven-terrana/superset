@@ -7,11 +7,15 @@ export function registerTerminalIPCs(mainWindow: BrowserWindow) {
 
 	// Create terminal
 	ipcMain.handle('terminal-create', async (_event, options: { cols?: number; rows?: number; cwd?: string }) => {
-		return await terminalManager.create(options);
+		console.log('[IPC] Creating terminal with options:', options);
+		const id = await terminalManager.create(options);
+		console.log('[IPC] Created terminal with id:', id);
+		return id;
 	});
 
 	// Send input to terminal
 	ipcMain.on('terminal-input', (_event, message: { id: string; data: string }) => {
+		console.log('[IPC] Received terminal-input:', { id: message.id, dataLength: message.data.length });
 		terminalManager.write(message.id, message.data);
 	});
 
